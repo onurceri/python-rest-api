@@ -12,7 +12,7 @@ services:
       sh -c "python manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=DB
-      - DB_NAME=app
+      - DB_NAME=python_rest_api
       - DB_USER=postgres
       - DB_PASS=pass123
     depends_on:
