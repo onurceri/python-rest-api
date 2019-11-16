@@ -18,6 +18,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='customermailaddress',
             name='customer_id',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='mail_addresses', to='core.Customer'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='mail_addresses',
+                to='core.Customer'
+            ),
         ),
     ]

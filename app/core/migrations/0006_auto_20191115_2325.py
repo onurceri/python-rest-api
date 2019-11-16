@@ -26,7 +26,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='customertypemap',
             name='customer',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='customer', to='core.Customer'),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='customer', to='core.Customer'
+            ),
         ),
         migrations.AddField(
             model_name='customertypemap',

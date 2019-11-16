@@ -1,8 +1,6 @@
 from core.models import (
     customer_model,
     customer_mailaddress_model,
-    customer_type_model,
-    customer_type_map_model,
 )
 
 from rest_framework.serializers import (
