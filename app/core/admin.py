@@ -1,4 +1,4 @@
+from django.contrib import admin
+from core.models.customer_model import Customer
 
-#from django.contrib import admin
-
-#admin.site.register(customer_model.Customer)
+admin.site.register(Customer)
