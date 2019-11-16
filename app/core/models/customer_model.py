@@ -1,5 +1,5 @@
 from django.db import models
-from django.conf import settings
+
 
 class Customer(models.Model):
     """Customer model"""
@@ -9,6 +9,8 @@ class Customer(models.Model):
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ['created_at']
 
     def __str__(self):
         return self.name
