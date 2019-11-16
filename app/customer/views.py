@@ -1,36 +1,11 @@
-from rest_framework.generics import (
-    DestroyAPIView,
-    ListAPIView,
-    UpdateAPIView,
-    RetrieveAPIView
-)
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework import status
 
-from core.models import customer_model
-from core.models import customer_mailaddress_model
-from core.serializers import CustomerSerializer
-from core.serializers import MailAddressSerializer
-
-
-class ListCustomersView(ListAPIView):
-    queryset = customer_model.Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-
-class CustomerDeleteView(DestroyAPIView):
-    queryset = customer_model.Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-
-class CustomerUpdateView(UpdateAPIView):
-    queryset = customer_model.Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-
-class CustomerDetailView(RetrieveAPIView):
-    queryset = customer_model.Customer.objects.all()
-    serializer_class = CustomerSerializer
-
-
-class ListCustomersMailAddressesView(ListAPIView):
-    queryset = customer_mailaddress_model.CustomerMailAddress.objects.all()
-    serializer_class = MailAddressSerializer
+@csrf_exempt
+@api_view(["GET"])
+def sample_api(request):
+    data = {'sample_data': 123}
+    return Response(data, status=status.HTTP_200_OK)

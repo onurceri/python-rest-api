@@ -1,32 +1,22 @@
-from core.models import (
-    customer_model,
-    customer_mailaddress_model,
-)
+from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.models import User
 
-from rest_framework.serializers import (
-    ModelSerializer,
-    RelatedField
-)
+class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+            required=True,
+            validators=[UniqueValidator(queryset=User.objects.all())]
+            )
+    username = serializers.CharField(
+            validators=[UniqueValidator(queryset=User.objects.all())]
+            )
+    password = serializers.CharField(min_length=8)
 
-
-class MailAddressSerializer(ModelSerializer):
-    class Meta:
-        model = customer_mailaddress_model.CustomerMailAddress
-        fields = [
-            'customer_id',
-            'mail_address', ]
-
-
-class CustomerMailAddressSerializer(RelatedField):
-    def to_representation(self, value):
-        mail_address = value.mail_address
-        return mail_address
-
-
-class CustomerSerializer(ModelSerializer):
-    mail_addresses = CustomerMailAddressSerializer(
-        many=True, read_only=True)
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'], validated_data['email'],
+             validated_data['password'])
+        return user
 
     class Meta:
-        model = customer_model.Customer
-        fields = ['name', 'mail_addresses']
+        model = User
+        fields = ('id', 'username', 'email', 'password')
