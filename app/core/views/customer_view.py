@@ -1,4 +1,3 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
@@ -16,15 +15,14 @@ class CustomerView(APIView):
 
     def post(self, request, *args, **kwargs):
         # insert a new record for a customer
-        print(kwargs)
         data = {
-           'first_name': request.data.get('first_name'),
-           'age': int(request.data.get('age')),
-           'last_name': request.data.get('last_name'),
-           'mail_address': request.data.get('mail_address')
+            'first_name': request.data.get('first_name'),
+            'age': int(request.data.get('age')),
+            'last_name': request.data.get('last_name'),
+            'mail_address': request.data.get('mail_address')
         }
         serializer = CustomerSerializer(data=data)
         if serializer.is_valid():
-           serializer.save()
-           return Response(serializer.data, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
