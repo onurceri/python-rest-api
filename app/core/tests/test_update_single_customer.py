@@ -2,6 +2,8 @@ import json
 from rest_framework import status
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 from core.models.customer_model import Customer
 
@@ -30,12 +32,20 @@ class UpdateSingleCustomerTest(TestCase):
             'age': 12,
             'mail_address': 'jeff@email.com'
         }
+        dummy_user = User.objects.create(
+            username='test_user',
+            email='test_user@mail.com',
+            password='password123'
+        )
+        token, _ = Token.objects.get_or_create(user=dummy_user)
+        self.header = {'HTTP_AUTHORIZATION': 'Token ' + token.key}
 
     def test_valid_update_customer(self):
         response = client.put(
             reverse('queryable-customer-api', kwargs={'pk': self.john.pk}),
             data=json.dumps(self.valid_payload),
-            content_type='application/json'
+            content_type='application/json',
+            **self.header
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
@@ -43,5 +53,6 @@ class UpdateSingleCustomerTest(TestCase):
         response = client.put(
             reverse('queryable-customer-api', kwargs={'pk': self.john.pk}),
             data=json.dumps(self.invalid_payload),
-            content_type='application/json')
+            content_type='application/json',
+            **self.header)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

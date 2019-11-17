@@ -1,6 +1,8 @@
 from rest_framework import status
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 from core.models.customer_model import Customer
 from core.serializers import CustomerSerializer
@@ -23,9 +25,13 @@ class GetSingleCustomerTest(TestCase):
         self.sam = Customer.objects.create(
             first_name='Sam', last_name='Brain', age=19, mail_address='sam@email.com')
 
+        dummy_user = User.objects.create(username='test_user', email='test_user@mail.com', password='password123')
+        token, _ = Token.objects.get_or_create(user=dummy_user)
+        self.header = {'HTTP_AUTHORIZATION': 'Token ' + token.key}
+
     def test_get_valid_single_customer(self):
         response = client.get(
-            reverse('queryable-customer-api', kwargs={'pk': self.sam.pk}))
+            reverse('queryable-customer-api', kwargs={'pk': self.sam.pk}), **self.header)
         customer = Customer.objects.get(pk=self.sam.pk)
         serializer = CustomerSerializer(customer)
         self.assertEqual(response.data, serializer.data)
@@ -33,5 +39,5 @@ class GetSingleCustomerTest(TestCase):
 
     def test_get_invalid_single_customer(self):
         response = client.get(
-            reverse('queryable-customer-api', kwargs={'pk': 30}))
+            reverse('queryable-customer-api', kwargs={'pk': 30}), **self.header)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
