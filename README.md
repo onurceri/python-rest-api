@@ -1,6 +1,6 @@
 # python-rest-api
 
-Since token control does not exist in unit tests, the following changes should be made when trying login / register endpoints.
+Since token control does not exist in unit tests, the following changes should be made when running tests and trying authentication on postman calls.
 
 The app/settings.py file should be modified as follows.
 
