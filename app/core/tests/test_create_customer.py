@@ -27,7 +27,7 @@ class CreateNewCustomerTest(TestCase):
 
     def test_create_valid_customer(self):
         response = client.post(
-            reverse('get_post_customers'),
+            reverse('customer-api'),
             data=json.dumps(self.valid_payload),
             content_type='application/json'
         )
@@ -35,7 +35,7 @@ class CreateNewCustomerTest(TestCase):
 
     def test_create_invalid_customer(self):
         response = client.post(
-            reverse('get_post_customers'),
+            reverse('customer-api'),
             data=json.dumps(self.invalid_payload),
             content_type='application/json'
         )

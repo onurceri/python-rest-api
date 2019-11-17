@@ -24,7 +24,7 @@ class GetAllCustomersTest(TestCase):
 
     def test_get_all_customers(self):
         # get API response
-        response = client.get(reverse('get_post_customers'))
+        response = client.get(reverse('customer-api'))
         # get data from db
         customers = Customer.objects.all()
         serializer = CustomerSerializer(customers, many=True)

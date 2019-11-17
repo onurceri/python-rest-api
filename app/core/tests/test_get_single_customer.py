@@ -25,7 +25,7 @@ class GetSingleCustomerTest(TestCase):
 
     def test_get_valid_single_customer(self):
         response = client.get(
-            reverse('get_delete_update_customer', kwargs={'pk': self.sam.pk}))
+            reverse('queryable-customer-api', kwargs={'pk': self.sam.pk}))
         customer = Customer.objects.get(pk=self.sam.pk)
         serializer = CustomerSerializer(customer)
         self.assertEqual(response.data, serializer.data)
@@ -33,5 +33,5 @@ class GetSingleCustomerTest(TestCase):
 
     def test_get_invalid_single_customer(self):
         response = client.get(
-            reverse('get_delete_update_customer', kwargs={'pk': 30}))
+            reverse('queryable-customer-api', kwargs={'pk': 30}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

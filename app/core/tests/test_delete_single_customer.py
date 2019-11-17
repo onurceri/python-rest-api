@@ -20,10 +20,10 @@ class DeleteSingleCustomerTest(TestCase):
 
     def test_valid_delete_customer(self):
         response = client.delete(
-            reverse('get_delete_update_customer', kwargs={'pk': self.john.pk}))
+            reverse('queryable-customer-api', kwargs={'pk': self.john.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_invalid_delete_customer(self):
         response = client.delete(
-            reverse('get_delete_update_customer', kwargs={'pk': 30}))
+            reverse('queryable-customer-api', kwargs={'pk': 30}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

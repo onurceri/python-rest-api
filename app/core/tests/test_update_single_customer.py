@@ -33,7 +33,7 @@ class UpdateSingleCustomerTest(TestCase):
 
     def test_valid_update_customer(self):
         response = client.put(
-            reverse('get_delete_update_customer', kwargs={'pk': self.john.pk}),
+            reverse('queryable-customer-api', kwargs={'pk': self.john.pk}),
             data=json.dumps(self.valid_payload),
             content_type='application/json'
         )
@@ -41,7 +41,7 @@ class UpdateSingleCustomerTest(TestCase):
 
     def test_invalid_update_customer(self):
         response = client.put(
-            reverse('get_delete_update_customer', kwargs={'pk': self.john.pk}),
+            reverse('queryable-customer-api', kwargs={'pk': self.john.pk}),
             data=json.dumps(self.invalid_payload),
             content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
