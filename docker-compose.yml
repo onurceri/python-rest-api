@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+  db:
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_DB=python_rest_api
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass123
+    ports:
+      - 5432:5432
+  
   app:
     build:
       context: .
@@ -19,18 +28,7 @@ services:
       - db
     links:
       - db:db
-    networks:
-      - rest-api
+    tty: true
   
-  db:
-    image: postgres:12-alpine
-    environment:
-      - POSTGRES_DB=python_rest_api
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=pass123
-    ports:
-      - 5432:5432
-    networks:
-      - rest-api
-networks:
-  rest-api:          
+  
+        
