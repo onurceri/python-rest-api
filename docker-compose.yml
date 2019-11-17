@@ -17,6 +17,10 @@ services:
       - DB_PASS=pass123
     depends_on:
       - db
+    links:
+      - db:db
+    networks:
+      - rest-api
   
   db:
     image: postgres:12-alpine
@@ -26,3 +30,7 @@ services:
       - POSTGRES_PASSWORD=pass123
     ports:
       - 5432:5432
+    networks:
+      - rest-api
+networks:
+  rest-api:          
